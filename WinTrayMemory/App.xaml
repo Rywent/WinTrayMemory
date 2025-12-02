@@ -1,0 +1,19 @@
+﻿<Application x:Class="WinTrayMemory.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WinTrayMemory"
+             xmlns:hp="clr-namespace:WinTrayMemory.HeaviestProcesses"
+             xmlns:sv="clr-namespace:WinTrayMemory.Settings"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <!-- DataTemplate for HeaviestProcessesViewModel -->
+        <DataTemplate DataType="{x:Type hp:HeaviestProcessesViewModel}">
+            <hp:HeaviestProcessesView />
+        </DataTemplate>
+
+        <!-- DataTemplate for SettingsViewModel -->
+        <DataTemplate DataType="{x:Type sv:SettingsViewModel}">
+            <sv:SettingsView />
+        </DataTemplate>
+    </Application.Resources>
+</Application>

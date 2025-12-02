@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="WinTrayMemory.Resources.View.UserControls.TaskLine"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:WinTrayMemory.Resources.View.UserControls"
+	xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/WinTrayMemory;component/Resources/Styles/BaseStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0,0,0">
+            <svgc:SvgViewbox Source="{Binding TaskCategoryImage, RelativeSource={RelativeSource AncestorType=UserControl}}" Height="15" Width="15" />
+            <TextBlock Width="150" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"
+                       ToolTip="{Binding TaskClueMessage, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                       Foreground="White" FontSize="12" FontWeight="DemiBold" Margin="5,0,0,0">
+				<Run Text="{Binding TaskName, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+				<Run Text=" ("/>
+				<Run Text="{Binding TaskCount, RelativeSource={RelativeSource AncestorType=UserControl}}" Foreground="Yellow"/>
+				<Run Text=")"/>
+            </TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0" HorizontalAlignment="Right">
+            <TextBlock Text="{Binding TaskMemoryUses, RelativeSource={RelativeSource AncestorType=UserControl},StringFormat={}{0} MB}" Foreground="#B0B0B0" FontSize="12" VerticalAlignment="Center" Margin="0,0,5,0" />
+            <Button Command="{Binding KillCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" 
+                    Style="{StaticResource ButtonControlClick}"
+                Background="Transparent" Foreground="Transparent" Width="20" Height="20" BorderBrush="Transparent">
+                <svgc:SvgViewbox Source="/Resources/img/kill.svg" Width="15" Height="15"/>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

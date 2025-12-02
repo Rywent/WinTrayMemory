@@ -1,0 +1,39 @@
+﻿<Window x:Class="WinTrayMemory.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:blur="clr-namespace:WinTrayMemory.Resources.Effects"
+        xmlns:tb="clr-namespace:H.NotifyIcon;assembly=H.NotifyIcon.Wpf"
+        xmlns:shell="clr-namespace:WinTrayMemory.Shell"
+        mc:Ignorable="d"
+        Background="#20222790"
+        BorderBrush="White"
+        BorderThickness="0.6"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ShowInTaskbar="False"
+        Title="WinTrayMemory"
+        Height="210" Width="315"
+        MaxWidth="315" MaxHeight="210">
+
+    <Window.DataContext>
+        <shell:MainViewModel />
+    </Window.DataContext>
+    
+    <i:Interaction.Behaviors>
+        <blur:BlurBehavior/>
+    </i:Interaction.Behaviors>
+
+    <Grid>
+        <ContentControl x:Name="MainContent"
+                        Content="{Binding CurrentView}"
+                        Background="Transparent" />
+
+        <tb:TaskbarIcon x:Name="TrayIcon"
+                        IconSource="/Resources/img/appIcon.ico"
+                        ToolTipText="Win Tray Memory"
+                        TrayLeftMouseUp="TrayIcon_OnClick" />
+    </Grid>
+</Window>

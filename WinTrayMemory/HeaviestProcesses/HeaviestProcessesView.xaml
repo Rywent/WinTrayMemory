@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="WinTrayMemory.HeaviestProcesses.HeaviestProcessesView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:taskView="clr-namespace:WinTrayMemory.Resources.View.UserControls"
+	xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+      mc:Ignorable="d" 
+      d:DesignHeight="210" d:DesignWidth="315">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/WinTrayMemory;component/Resources/Styles/BaseStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- header -->
+        <StackPanel Orientation="Vertical" Grid.Row="0" Margin="10 2 0 0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Win Tray Memory" Foreground="White" FontSize="16" FontWeight="Bold"/>
+                <svgc:SvgViewbox Source="/Resources/img/header-img.svg" Height="15" Width="15" Margin="5 2 0 0"/>
+            </StackPanel>
+            <Border Background="Transparent" BorderBrush="#4B4949" BorderThickness="1"
+                    Width="120" Height="1" Margin="0 0 180 0"
+                    Panel.ZIndex="10" VerticalAlignment="Bottom"/>
+        </StackPanel>
+        <!-- memory + buttons -->
+        <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center" Margin="10 0 0 0">
+            <svgc:SvgViewbox Source="/Resources/img/memory.svg" Height="15" Width="15"/>
+            <TextBlock Text="{Binding Memory.UsedMemory, StringFormat={}{0:F1} / }"
+                       Foreground="White" FontSize="10" FontWeight="Bold" Margin="7 3 0 0"/>
+            <TextBlock Text="{Binding Memory.TotalMemory, StringFormat={}{0:F1} GB}"
+                       Foreground="White" FontSize="10" FontWeight="Bold" Margin="0 3 0 0"/>
+            <Slider x:Name="RamSlider"
+                    IsHitTestVisible="False"
+                    Style="{StaticResource RamUsageSliderStyle}"
+                    Value="{Binding Memory.UsedPercentage}"
+                    Width="75" Height="17" Margin="10 0 0 0"/>
+            <TextBlock Text="{Binding Memory.UsedPercentage, StringFormat={}{0:F0}%}"
+                       Foreground="White" FontSize="10" FontWeight="Bold" Margin="5 3 0 0"/>
+            <Button Width="20" Height="20" Background="Transparent" BorderBrush="Transparent"
+                    Style="{StaticResource ButtonControlClick}"
+                    Margin="25 0 0 0"
+                    Command="{Binding SmartCleaningCommand}">
+                <svgc:SvgViewbox Source="/Resources/img/brush-cleaning.svg" Width="16" Height="16"/>
+            </Button>
+            <Button Width="20" Height="20" Background="Transparent" BorderBrush="Transparent"
+                    Style="{StaticResource ButtonControlClick}"
+                    Margin="10 0 0 0"
+                    Command="{Binding DataContext.ShowSettingsCommand, RelativeSource={RelativeSource AncestorType=Window}}">
+                <svgc:SvgViewbox Source="/Resources/img/wrench.svg" Width="16" Height="16"/>
+            </Button>
+            <Button Width="20" Height="20" Background="Transparent" BorderBrush="Transparent"
+                    Style="{StaticResource ButtonControlClick}"
+                    Margin="10 0 0 0"
+                    Command="{Binding CloseAppCommand}">
+                <svgc:SvgViewbox Source="/Resources/img/closeApp.svg" Width="14" Height="14"/>
+            </Button>
+        </StackPanel>
+        <!-- header for list -->
+        <StackPanel Orientation="Vertical" Grid.Row="2" Margin="10 2 0 0" HorizontalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Heaviest Processes" Foreground="White" FontSize="16" FontWeight="Bold"/>
+                <svgc:SvgViewbox Source="/Resources/img/gauge.svg" Height="15" Width="15" Margin="10 2 0 0"/>
+            </StackPanel>
+            <Border Background="Transparent" BorderBrush="#4B4949" BorderThickness="1"
+                    Width="150" Height="1" Margin="0 0 180 0"
+                    Panel.ZIndex="10" VerticalAlignment="Bottom"/>
+        </StackPanel>
+        <!-- processes list -->
+        <ListBox Grid.Row="3"
+                 Background="Transparent"
+                 BorderThickness="0"
+                 Margin="0"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 ItemsSource="{Binding Processes}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <ContentPresenter />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <taskView:TaskLine Margin="0 3 0 0" Height="30" Width="300"
+                                       TaskName="{Binding Name}"
+                                       TaskCount="{Binding Count}"
+                                       TaskClueMessage="{Binding ClueMessage}"
+                                       TaskMemoryUses="{Binding MemoryUses}"
+                                       TaskCategoryImage="{Binding Category}"
+                                       KillCommand="{Binding DataContext.KillProcessCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

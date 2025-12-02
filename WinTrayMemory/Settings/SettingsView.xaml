@@ -1,0 +1,109 @@
+﻿<UserControl x:Class="WinTrayMemory.Settings.SettingsView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+	xmlns:local="clr-namespace:WinTrayMemory.Settings"
+      mc:Ignorable="d" 
+      Background="Transparent"
+      d:DesignHeight="210" d:DesignWidth="315">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/WinTrayMemory;component/Resources/Styles/BaseStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- header -->
+        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="10 2 0 0">
+            <StackPanel Orientation="Horizontal">
+                <Button Width="20" Height="20" Background="Transparent" BorderBrush="Transparent"
+                        Style="{StaticResource ButtonControlClick}"
+                        Margin="0"
+                        Command="{Binding DataContext.ShowHeaviestProcessesCommand, RelativeSource={RelativeSource AncestorType=Window}}">
+                    <svgc:SvgViewbox Source="/Resources/img/SettingsImages/back.svg" Width="16" Height="16"/>
+                </Button>
+                <TextBlock Text="Win Tray Memory\Settings" Foreground="White"
+                           FontSize="16" FontWeight="Bold" Margin="5 0 0 0"/>
+                <Button Width="21" Height="21" Background="Transparent" BorderBrush="Transparent"
+                        Style="{StaticResource ButtonControlClick}"
+                        Margin="30 0 0 0"
+                        Command="{Binding SaveSettingsCommand}">
+                    <svgc:SvgViewbox Source="/Resources/img/SettingsImages/save.svg" Width="17" Height="17"/>
+                </Button>
+            </StackPanel>
+            <Border Background="Transparent" BorderBrush="#4B4949" BorderThickness="1"
+                    Width="170" Height="1" Margin="26 0 0 0"
+                    HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Orientation="Vertical">
+                <!-- option 1 Process types -->
+                <StackPanel Orientation="Horizontal" Margin="10 10 0 0 ">
+                    <svgc:SvgViewbox Source="/Resources/img/SettingsImages/info.svg" Width="16" Height="16"/>
+                    <TextBlock Text="Process types" Foreground="White" FontSize="12" Margin="5 0 0 0" FontWeight="Bold"/>
+                    <Button BorderBrush="White" Background="#1C2027" Width="110" Height="20" 
+                            Command="{Binding OpenConfigurationFileCommand}"
+                            Margin="5 0 0 0" BorderThickness="0.3" Style="{StaticResource RoundButton}">
+                        <TextBlock Text="Open config file" FontSize="13" Foreground="White" Margin="0 -1 0 0" FontWeight="DemiBold"/>
+                    </Button>
+                </StackPanel>
+                <!-- option 2 minimum size of a heaviest process -->
+                <StackPanel Orientation="Horizontal" Margin="10 10 0 0 ">
+                    <svgc:SvgViewbox Source="/Resources/img/SettingsImages/ruler.svg" Width="16" Height="16"/>
+                    <TextBlock Text="Min heavy process size" Foreground="White" FontSize="12" Margin="5 0 0 0" FontWeight="Bold"/>
+                    <TextBox Width="50" Margin="5 0 0 0" Background="Transparent" Foreground="White" FontSize="11" TextAlignment="Center" MaxLength="5"
+                             CaretBrush="White" BorderBrush="#4B4949" BorderThickness="0 0 0 1" Padding="0"
+                             Text="{Binding HeaviestProcessSize, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="MB" Foreground="White" FontSize="12" FontWeight="Bold" Margin="2 0 0 0"/>
+                </StackPanel>
+                <!-- option 3 max processes shown -->
+                <StackPanel Orientation="Horizontal" Margin="10 10 0 0 ">
+                    <svgc:SvgViewbox Source="/Resources/img/SettingsImages/max.svg" Width="16" Height="16"/>
+                    <TextBlock Text="Max processes shown" Foreground="White" FontSize="12" Margin="5 0 0 0" FontWeight="Bold"/>
+                    <TextBox Width="50" Margin="5 0 0 0" Background="Transparent" Foreground="White" FontSize="11" TextAlignment="Center" MaxLength="5" 
+                             Text="{Binding MaxProcessesShown, UpdateSourceTrigger=PropertyChanged}"
+                             CaretBrush="White" BorderBrush="#4B4949" BorderThickness="0 0 0 1" Padding="0" />
+                </StackPanel>
+                <!-- option 4 refresh interval -->
+                <StackPanel Orientation="Horizontal" Margin="10 10 0 0 ">
+                    <svgc:SvgViewbox Source="/Resources/img/SettingsImages/refresh.svg" Width="16" Height="16"/>
+                    <TextBlock Text="Refresh interval" Foreground="White" FontSize="12" Margin="5 0 0 0" FontWeight="Bold"/>
+                    <TextBox Width="50" Margin="5 0 0 0" Background="Transparent" Foreground="White" FontSize="11" TextAlignment="Center" MaxLength="5"
+                             CaretBrush="White" BorderBrush="#4B4949" BorderThickness="0 0 0 1" Padding="0" HorizontalContentAlignment="Center"
+                             Text="{Binding RefreshIntervalSec, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Text="Sec" Foreground="White" FontSize="12" Margin="5 0 0 0" FontWeight="Bold"/>
+                </StackPanel>
+                <!-- option 5 cleaning options -->
+                <StackPanel Orientation="Vertical" Margin="10 10 0 0">
+                    <StackPanel Orientation="Horizontal">
+                        <svgc:SvgViewbox Source="/Resources/img/copy-check.svg" Width="16" Height="16"/>
+                        <TextBlock Text="Smart cleaning options" Foreground="White" FontSize="12" FontWeight="Bold" Margin="5 3 0 5"/>
+                    </StackPanel>
+                    <TextBlock Text="Safe (works as Administrator)" Foreground="White" FontSize="12" FontWeight="Bold" Margin="40 0 0 5"/>
+                    <CheckBox Content="Trim process working sets" Foreground="White" Margin="60 2 0 0"
+                              IsChecked="{Binding CleanWorkingSet}"/>
+                    <TextBlock Text="Advanced (requires SYSTEM account)" Foreground="White" FontSize="12" FontWeight="Bold" Margin="40 0 0 5"/>
+                    <CheckBox Content="Purge low-priority standby list" Foreground="White" Margin="60 2 0 0"
+                              IsChecked="{Binding CleanLowPriorityStandby}"/>
+                    <CheckBox Content="Purge full standby list (aggressive)" Foreground="White" Margin="60 2 0 0"
+                              IsChecked="{Binding CleanStandbyList}"/>
+                    <CheckBox Content="Purge modified page list" Foreground="White" Margin="60 2 0 0"
+                              IsChecked="{Binding CleanModifiedPageList}"/>
+                </StackPanel>
+                <!-- option 4 run on sturtup -->
+                <StackPanel Orientation="Horizontal" Margin="10 10 0 0 " Height="40" VerticalAlignment="Top">
+                    <svgc:SvgViewbox Source="/Resources/img/calendar-check.svg" Width="16" Height="16" VerticalAlignment="Top"/>
+                    <TextBlock Text="Run on startup" Foreground="White" FontSize="12" Margin="5 0 0 0" FontWeight="Bold"/>
+                    <CheckBox Foreground="White" Margin="10 2 0 0" IsChecked="{Binding RunOnStartup, Mode=TwoWay}"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
