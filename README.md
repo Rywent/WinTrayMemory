@@ -146,7 +146,7 @@ Windows Tray Memory is a lightweight yet powerful heavy‑process monitor and RA
 </p>
 
 <p align="center">
-  <img src="images/Tutorial/Active.jpg" alt="WinTrayMemory – enable tray icon" width="800">
+  <img src="images/Settings/tray.png" alt="WinTrayMemory – enable tray icon" width="800">
 </p>
 
 <p align="center">
