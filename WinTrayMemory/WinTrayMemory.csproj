@@ -5,10 +5,13 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	<LangVersion>preview</LangVersion>
+	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <UseWPF>true</UseWPF>
     <Platforms>AnyCPU;x64</Platforms>
     <ApplicationIcon>Resources\img\appIcon.ico</ApplicationIcon>
-	  <ApplicationManifest>app.manifest</ApplicationManifest>
+	<ApplicationManifest>app.manifest</ApplicationManifest>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

@@ -5,14 +5,17 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="clr-namespace:WinTrayMemory.Resources.View.UserControls"
 	xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+    xmlns:conv="clr-namespace:WinTrayMemory.Processes"
              
-             mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="300">
+    mc:Ignorable="d" 
+    d:DesignHeight="30" d:DesignWidth="300">
+
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/WinTrayMemory;component/Resources/Styles/BaseStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <conv:ProcessTypeToSvgConverter x:Key="ProcessTypeToSvgConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -22,7 +25,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0,0,0">
-            <svgc:SvgViewbox Source="{Binding TaskCategoryImage, RelativeSource={RelativeSource AncestorType=UserControl}}" Height="15" Width="15" />
+            <svgc:SvgViewbox Source="{Binding TaskCategory, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource ProcessTypeToSvgConverter }}" Height="15" Width="15" />
             <TextBlock Width="150" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"
                        ToolTip="{Binding TaskClueMessage, RelativeSource={RelativeSource AncestorType=UserControl}}"
                        Foreground="White" FontSize="12" FontWeight="DemiBold" Margin="5,0,0,0">

@@ -1,18 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Threading;
-
-using WinTrayMemory.Proccesses;
-using WinTrayMemory.Memory;
 using WinTrayMemory.Config;
+using WinTrayMemory.Memory;
+using WinTrayMemory.Processes;
 
 namespace WinTrayMemory.HeaviestProcesses;
 
-public partial class HeaviestProcessesViewModel : ObservableObject
+public sealed partial class HeaviestProcessesViewModel : ObservableObject
 {
     private readonly DispatcherTimer _timer;
     private readonly ProcessDataProvider _monitor;
@@ -34,14 +33,16 @@ public partial class HeaviestProcessesViewModel : ObservableObject
         Memory = memory;
         _monitor = new ProcessDataProvider(_settings);
 
+        _settings.PropertyChanged += OnSettingsChanged;
+
         _timer = new DispatcherTimer
         {
             Interval = TimeSpan.FromSeconds(_settings.RefreshIntervalSec)
         };
-        _timer.Tick += (s, e) => RefreshProcesses();
+        _timer.Tick += async (_, _) => await RefreshProcesses();
         _timer.Start();
 
-        RefreshProcesses();
+        _ = RefreshProcesses();
     }
 
     /// <summary>
@@ -134,7 +135,7 @@ public partial class HeaviestProcessesViewModel : ObservableObject
     /// <summary>
     /// refreshes the list of current processes and their memory usage.
     /// </summary>
-    private async void RefreshProcesses()
+    private async Task RefreshProcesses()
     {
         var data = await Task.Run(() => _monitor.GetHeaviestProcesses());
 
@@ -145,8 +146,15 @@ public partial class HeaviestProcessesViewModel : ObservableObject
             {
                 Processes.Add(item);
             }
-                
         });
+    }
+
+    private void OnSettingsChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(AppSettings.RefreshIntervalSec))
+        {
+            _timer.Interval = TimeSpan.FromSeconds(_settings.RefreshIntervalSec);
+        }
     }
 
 }

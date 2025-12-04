@@ -8,7 +8,7 @@ using WinTrayMemory.Memory;
 
 namespace WinTrayMemory.Shell;
 
-public partial class MainViewModel : ObservableObject
+public sealed partial class MainViewModel : ObservableObject
 {
     [ObservableProperty]
     private ObservableObject? _currentView;
@@ -37,11 +37,11 @@ public partial class MainViewModel : ObservableObject
     /// switches shell view to the heaviest processes view.
     /// </summary>
     [RelayCommand]
-    public void ShowHeaviestProcesses() => CurrentView = HeaviestProcessesViewModel;
+    private void ShowHeaviestProcesses() => CurrentView = HeaviestProcessesViewModel;
 
     /// <summary>
     /// switches shell view to the settings view.
     /// </summary>
     [RelayCommand]
-    public void ShowSettings() => CurrentView = SettingsViewModel;
+    private void ShowSettings() => CurrentView = SettingsViewModel;
 }

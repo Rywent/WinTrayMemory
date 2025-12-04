@@ -7,7 +7,7 @@ using WinTrayMemory.Config;
 
 namespace WinTrayMemory.Settings;
 
-internal class SettingsService
+internal sealed class SettingsService
 {
     /// <summary>
     /// full path to the configuration file in the user's appdata.
@@ -150,7 +150,7 @@ internal class SettingsService
     {
         Task.Run(async () =>
         {
-            await Task.Delay(150);
+            await Task.Delay(10);
 
             AppSettings reloaded;
             try

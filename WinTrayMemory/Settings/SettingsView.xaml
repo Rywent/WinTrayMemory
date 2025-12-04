@@ -5,9 +5,11 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
 	xmlns:local="clr-namespace:WinTrayMemory.Settings"
-      mc:Ignorable="d" 
-      Background="Transparent"
-      d:DesignHeight="210" d:DesignWidth="315">
+    xmlns:vm="clr-namespace:WinTrayMemory.Shell"
+    d:DataContext="{d:DesignInstance Type={x:Type vm:MainViewModel},IsDesignTimeCreatable=True}"
+    mc:Ignorable="d" 
+    Background="Transparent"
+    d:DesignHeight="210" d:DesignWidth="315">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

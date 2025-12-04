@@ -1,11 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Management;
+using System.Windows;
 using System.Windows.Threading;
+using WinTrayMemory.Config;
 
 
 namespace WinTrayMemory.Memory;
 
-public partial class MemoryInfoViewModel : ObservableObject
+public sealed partial class MemoryInfoViewModel : ObservableObject
 {
     [ObservableProperty]
     private decimal totalMemory;
@@ -25,6 +27,7 @@ public partial class MemoryInfoViewModel : ObservableObject
     /// </summary>
     public MemoryInfoViewModel()
     {
+
         _memoryService = new MemoryInfoService();
 
         _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
@@ -45,8 +48,16 @@ public partial class MemoryInfoViewModel : ObservableObject
 
         foreach (ManagementObject obj in searcher.Get())
         {
-            decimal totalKb = Convert.ToDecimal(obj["TotalVisibleMemorySize"]);
-            TotalMemory = totalKb / 1024m / 1024m;
+            if(obj is ManagementObject)
+            {
+                decimal totalKb = Convert.ToDecimal(obj["TotalVisibleMemorySize"]);
+                TotalMemory = totalKb / 1024m / 1024m;
+            }
+            else
+            {
+                MessageBox.Show("Unable to cast ManagementBaseObject to ManagementObject while reading memory info.", "WinTrayMemory", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
         }
     }
 

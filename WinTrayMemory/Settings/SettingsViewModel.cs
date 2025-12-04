@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Win32.TaskScheduler;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -8,7 +7,7 @@ using WinTrayMemory.Config;
 
 namespace WinTrayMemory.Settings;
 
-public partial class SettingsViewModel : ObservableObject
+public sealed partial class SettingsViewModel : ObservableObject
 {
     [ObservableProperty]
     private string _configurationFilePath;
@@ -116,7 +115,7 @@ public partial class SettingsViewModel : ObservableObject
     [RelayCommand]
     private void SaveSettings()
     {
-        SettingsService.Save(SettingsService.Settings);
+        SettingsService.Save(_settings);
     }
 
     /// <summary>

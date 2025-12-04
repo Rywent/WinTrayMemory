@@ -1,11 +1,9 @@
 ﻿using System.Windows;
 using System.ComponentModel;
 
-using WinTrayMemory.Shell;
-
 namespace WinTrayMemory;
 
-public partial class MainWindow : Window
+public sealed partial class MainWindow : Window
 {
 
     private bool _firstShow = true;

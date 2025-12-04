@@ -2,7 +2,7 @@
 
 namespace WinTrayMemory.Config;
 
-public partial class AppSettings : ObservableObject
+public sealed partial class AppSettings : ObservableObject
 {
     [ObservableProperty]
     private List<string> safely = new();

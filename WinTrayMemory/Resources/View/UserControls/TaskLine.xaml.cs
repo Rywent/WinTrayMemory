@@ -1,10 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using static WinTrayMemory.Processes.DeterminingProcessType;
 
 namespace WinTrayMemory.Resources.View.UserControls;
 
-public partial class TaskLine : UserControl
+public sealed partial class TaskLine : UserControl
 {
     public static readonly DependencyProperty TaskNameProperty =
         DependencyProperty.Register(
@@ -34,10 +35,10 @@ public partial class TaskLine : UserControl
             typeof(TaskLine),
             new PropertyMetadata(0L));
 
-    public static readonly DependencyProperty TaskCategoryImageProperty =
+    public static readonly DependencyProperty TaskCategoryProperty =
         DependencyProperty.Register(
-            nameof(TaskCategoryImage),
-            typeof(string),
+            nameof(TaskCategory),
+            typeof(ProcessType),
             typeof(TaskLine),
             new PropertyMetadata(null));
 
@@ -72,10 +73,10 @@ public partial class TaskLine : UserControl
         set => SetValue(TaskMemoryUsesProperty, value);
     }
 
-    public string TaskCategoryImage
+    public ProcessType TaskCategory
     {
-        get => (string)GetValue(TaskCategoryImageProperty);
-        set => SetValue(TaskCategoryImageProperty, value);
+        get => (ProcessType)GetValue(TaskCategoryProperty);
+        set => SetValue(TaskCategoryProperty, value);
     }
 
     public ICommand KillCommand

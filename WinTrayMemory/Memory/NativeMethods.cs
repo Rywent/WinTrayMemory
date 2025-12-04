@@ -2,7 +2,7 @@
 
 namespace WinTrayMemory.Memory;
 
-internal static class NativeMethods
+internal static partial class NativeMethods
 {
     internal const int SystemMemoryListInformation = 80;
 
@@ -13,9 +13,10 @@ internal static class NativeMethods
         MemoryPurgeModifiedList = 3
     }
 
-    [DllImport("psapi.dll", SetLastError = true)]
-    internal static extern bool EmptyWorkingSet(IntPtr hProcess);
+    [LibraryImport("psapi.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool EmptyWorkingSet(IntPtr hProcess);
 
-    [DllImport("ntdll.dll")]
-    internal static extern int NtSetSystemInformation(int systemInformationClass, IntPtr systemInformation, int systemInformationLength);
+    [LibraryImport("ntdll.dll")]
+    internal static partial int NtSetSystemInformation(int systemInformationClass, IntPtr systemInformation, int systemInformationLength);
 }

@@ -1,11 +1,11 @@
-﻿namespace WinTrayMemory.Proccesses;
+﻿using static WinTrayMemory.Processes.DeterminingProcessType;
 
-public class ProcessInfo
-{
-    public string? Name { get; set; }
-    public string? ClueMessage { get; set; }
-    public int Count { get; set; }
-    public decimal MemoryUses { get; set; }
-    public string? Category { get; set; }
-}
+namespace WinTrayMemory.Processes;
 
+
+public sealed record ProcessInfo(
+    string Name,
+    string ClueMessage,
+    int Count,
+    decimal MemoryUses,
+    ProcessType Category);
