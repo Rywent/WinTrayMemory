@@ -6,9 +6,11 @@
 	xmlns:local="clr-namespace:WinTrayMemory.Resources.View.UserControls"
 	xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
     xmlns:conv="clr-namespace:WinTrayMemory.Processes"
-             
+    Background="#1D293D"
+    BorderBrush="#314158"
+    BorderThickness="1"
     mc:Ignorable="d" 
-    d:DesignHeight="30" d:DesignWidth="300">
+    d:DesignHeight="30">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -30,9 +32,9 @@
                        ToolTip="{Binding TaskClueMessage, RelativeSource={RelativeSource AncestorType=UserControl}}"
                        Foreground="White" FontSize="12" FontWeight="DemiBold" Margin="5,0,0,0">
 				<Run Text="{Binding TaskName, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-				<Run Text=" ("/>
-				<Run Text="{Binding TaskCount, RelativeSource={RelativeSource AncestorType=UserControl}}" Foreground="Yellow"/>
-				<Run Text=")"/>
+				<Run Text=" (" Foreground="#3C5F7C"/>
+				<Run Text="{Binding TaskCount, RelativeSource={RelativeSource AncestorType=UserControl}}" Foreground="#3C5F7C"/>
+				<Run Text=")" Foreground="#3C5F7C"/>
             </TextBlock>
         </StackPanel>
         <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0" HorizontalAlignment="Right">

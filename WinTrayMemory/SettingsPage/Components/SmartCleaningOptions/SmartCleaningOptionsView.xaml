@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="WinTrayMemory.SettingsPage.Components.SmartCleaningOptions.SmartCleaningOptionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WinTrayMemory.SettingsPage.Components.SmartCleaningOptions"
+             BorderBrush="#314158"
+             BorderThickness="1"
+             mc:Ignorable="d" 
+             d:DesignHeight="130" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/WinTrayMemory;component/Resources/Styles/BaseStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <StackPanel Background="#1D293D" Orientation="Vertical">
+        <Grid Margin="6 0 6 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+
+
+            <TextBlock Text="Trim working sets (Safe)" 
+                   Grid.Column="0" Grid.Row="0" 
+                   Foreground="#90A1B9" FontSize="12" 
+                   VerticalAlignment="Center" Margin="6,0"/>
+
+            <ToggleButton Style="{StaticResource ToggleSwitch}" 
+                      Height="15" Width="30" 
+                      Grid.Column="1" Grid.Row="0" 
+                      HorizontalAlignment="Right"
+                      IsChecked="{Binding CleanWorkingSet}" 
+                      Margin="0"/>
+            
+
+            <TextBlock Text="Purge low-priority standby" 
+                   Grid.Column="0" Grid.Row="1" 
+                   Foreground="#90A1B9" FontSize="12" 
+                   VerticalAlignment="Center" Margin="6,0"/>
+
+            <ToggleButton Style="{StaticResource ToggleSwitch}" 
+                      Height="15" Width="30" 
+                      Grid.Column="1" Grid.Row="1" 
+                      HorizontalAlignment="Right"
+                      IsChecked="{Binding CleanLowPriorityStandby}" 
+                      Margin="0"/>
+
+            <TextBlock Text="Purge standby (Aggressive)" 
+                    Grid.Column="0" Grid.Row="2" 
+                    Foreground="#90A1B9" FontSize="12" 
+                    VerticalAlignment="Center" Margin="6,0"/>   
+
+            <ToggleButton Style="{StaticResource ToggleSwitch}" 
+                       Height="15" Width="30" 
+                       Grid.Column="1" Grid.Row="2" 
+                       HorizontalAlignment="Right"
+                       IsChecked="{Binding CleanStandbyList}" 
+                       Margin="0"/>
+
+
+            <TextBlock Text="Purge modified page list" 
+                    Grid.Column="0" Grid.Row="3" 
+                    Foreground="#90A1B9" FontSize="12" 
+                    VerticalAlignment="Center" Margin="6,0"/>
+
+            <ToggleButton Style="{StaticResource ToggleSwitch}" 
+                       Height="15" Width="30" 
+                       Grid.Column="1" Grid.Row="3" 
+                       HorizontalAlignment="Right"
+                       IsChecked="{Binding CleanModifiedPageList}" 
+                       Margin="0"/>
+
+
+        </Grid>
+
+    </StackPanel>
+</UserControl>

@@ -1,5 +1,6 @@
-﻿using System.Windows;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.Windows;
+using WinTrayMemory.Shell;
 
 namespace WinTrayMemory;
 
@@ -36,8 +37,8 @@ public sealed partial class MainWindow : Window
             if (_firstShow)
             {
                 _firstShow = false;
-                Width = 315;
-                Height = 210;
+                Width = 385;
+                Height = 240;
             }
 
             PositionNearTray();

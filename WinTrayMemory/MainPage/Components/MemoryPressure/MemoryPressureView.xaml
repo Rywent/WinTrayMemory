@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="WinTrayMemory.MainPage.Components.MemoryPressure.MemoryPressureView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WinTrayMemory.MainPage.Components.MemoryPressure"
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"            
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+             BorderBrush="#314158"
+             BorderThickness="1"
+             Height="120" Width="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/WinTrayMemory;component/Resources/Styles/BaseStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Background="#0F172B" Grid.Row="0">
+            <svgc:SvgViewbox Source="/Resources/img/chart-gauge.svg" Height="12" Width="12" Margin="10 0 2 0"/>
+            <TextBlock Text="MEMORY PRESSURE" Foreground="White" Margin="5 3" FontWeight="Medium" FontSize="10" />
+
+        </StackPanel>
+
+        <Grid Grid.Row="1" Background="#1D293D">
+            <lvc:PieChart 
+                Background="Transparent"
+                AnimationsSpeed="00:00:00"
+                Series="{Binding GaugeSeries}"
+                InitialRotation="-90"
+                MaxAngle="270" 
+                Height="100" Width="100"
+                HorizontalAlignment="Left"
+                Margin="20,0,0,0"/>
+
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="140,0,0,0">
+
+                <!-- Status -->
+                <TextBlock FontSize="12" Margin="0,0,0,5">
+                     <Run Text="Status: " Foreground="Gray"/>
+                     <Run Text="{Binding PressureStatus}" Foreground="White" FontWeight="Bold"/>
+                    <TextBlock.ToolTip>Overall memory pressure based on commit charge %</TextBlock.ToolTip>
+                </TextBlock>
+
+                <!--Commit Charge -->
+                <TextBlock FontSize="11" Margin="0,0,0,2">
+                    <Run Text="Commit Charge: " Foreground="Gray"/>
+                    <Run Text="{Binding PressureLabel}" Foreground="White" FontWeight="Medium"/>
+                    <TextBlock.ToolTip>Total virtual memory promised to all processes vs system limit</TextBlock.ToolTip>
+                </TextBlock>
+
+                <!--Hard Faults -->
+                <TextBlock FontSize="11">
+                    <Run Text="Hard Faults: " Foreground="Gray"/>
+                    <Run Text="{Binding HardFaultsLabel}" Foreground="{Binding HardFaultsColor}" FontWeight="Medium"/>
+                    <TextBlock.ToolTip>Pages per second read from disk (swapping activity)</TextBlock.ToolTip>
+                </TextBlock>
+
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

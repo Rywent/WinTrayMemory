@@ -1,27 +1,28 @@
 ﻿using Microsoft.Win32;
-using System.Reflection;
+using System.Diagnostics;
 
-internal static class StartupHelper
+public static class StartupHelper
 {
     private const string RunKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Run";
     private const string ValueName = "WinTrayMemory";
 
-    public static bool IsEnabled()
+    private static string GetExePath()
     {
-        using var key = Registry.CurrentUser.OpenSubKey(RunKeyPath, writable: false);
-        if (key == null)
-            return false;
-
-        var value = key.GetValue(ValueName) as string;
-        string exePath = Assembly.GetEntryAssembly()!.Location;
-        return string.Equals(value, exePath, StringComparison.OrdinalIgnoreCase);
+        using var process = Process.GetCurrentProcess();
+        return process.MainModule?.FileName
+            ?? Environment.ProcessPath
+            ?? throw new InvalidOperationException("Cannot get executable path");
     }
 
     public static void Enable()
     {
-        string exePath = Assembly.GetEntryAssembly()!.Location;
+        var exePath = GetExePath();
 
-        using var key = Registry.CurrentUser.OpenSubKey(RunKeyPath, writable: true) ?? Registry.CurrentUser.CreateSubKey(RunKeyPath)!;
+        if (exePath.Contains(' '))
+            exePath = $"\"{exePath}\"";
+
+        using var key = Registry.CurrentUser.OpenSubKey(RunKeyPath, writable: true)
+            ?? Registry.CurrentUser.CreateSubKey(RunKeyPath)!;
 
         key.SetValue(ValueName, exePath);
     }

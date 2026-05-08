@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="WinTrayMemory.MainPage.Components.MemoryDetailingChart.MemoryDetailingChartView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+             xmlns:local="clr-namespace:WinTrayMemory.MainPage.Components.MemoryDetailingChart"
+             mc:Ignorable="d" 
+             BorderBrush="#314158"
+             BorderThickness="1"
+             d:DesignHeight="120" d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/WinTrayMemory;component/Resources/Styles/BaseStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Background="#0F172B" Grid.Row="0">
+            <svgc:SvgViewbox Source="/Resources/img/chart-pie.svg" Height="12" Width="12" Margin="10 0 2 0"/>
+            <TextBlock Text="MEMORY DETAILING" Foreground="White" Margin="5 3" FontWeight="Medium" FontSize="10" />
+
+        </StackPanel>
+
+        <Grid Grid.Row="1" Background="#1D293D">
+            <lvc:PieChart
+                Background="Transparent"
+                Series="{Binding PieSeries}"
+                InitialRotation="-90"
+                LegendPosition="Right"
+                LegendTextSize="11"
+                LegendTextPaint="{Binding LegendTextPaint}"
+                TooltipPosition="Top" TooltipTextSize="11" TooltipBackgroundPaint="#0F172B" TooltipTextPaint="{Binding TooltipTextPaint}"/>
+        </Grid>
+    </Grid>
+</UserControl>

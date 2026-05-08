@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net10.0-windows</TargetFramework>
+	<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 	<LangVersion>preview</LangVersion>
-	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <UseWPF>true</UseWPF>
-    <Platforms>AnyCPU;x64</Platforms>
-    <ApplicationIcon>Resources\img\appIcon.ico</ApplicationIcon>
+	  <Platforms>AnyCPU;x64</Platforms>
+	  <ApplicationIcon>Resources\img\appIcon.ico</ApplicationIcon>
 	<ApplicationManifest>app.manifest</ApplicationManifest>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -22,21 +22,35 @@
 		<Resource Include="Resources\img\**\*.svg" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Resource Include="Resources\img\avatar.png" />
+	</ItemGroup>
+
   <ItemGroup>
     <Resource Include="Resources\img\appIcon.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.*" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="H.NotifyIcon.Wpf" Version="2.4.1" />
+		<PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.2" />
+		<PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
+		<PackageReference Include="SharpVectors.Wpf" Version="1.8.5" />
+		<PackageReference Include="System.Management" Version="9.0.0" />
+		<PackageReference Include="TaskScheduler" Version="2.12.2" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-    <PackageReference Include="H.NotifyIcon.Wpf" Version="2.4.1" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
-    <PackageReference Include="SharpVectors.Wpf" Version="1.8.5" />
-    <PackageReference Include="System.Management" Version="10.0.0" />
-    <PackageReference Include="TaskScheduler" Version="2.12.2" />
-  </ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\WinTrayMemory.Data\WinTrayMemory.Data.csproj" />
+	</ItemGroup>
 
-   
+	<PropertyGroup>
+		<Version>0.2.0</Version>
+	</PropertyGroup>
+
 
 </Project>

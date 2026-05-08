@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="WinTrayMemory.SettingsPage.Components.ProcessMonitoring.ProcessMonitoringView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WinTrayMemory.SettingsPage.Components.ProcessMonitoring"
+	         xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"             
+             mc:Ignorable="d" 
+             BorderBrush="#314158"
+             BorderThickness="1"
+             d:DesignHeight="200" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/WinTrayMemory;component/Resources/Styles/BaseStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <StackPanel Background="#1D293D" Orientation="Vertical">
+        <!-- Min process size -->
+        <StackPanel Margin="6 0 6 0">
+            <Grid Height="30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Min process size" Grid.Column="0" Foreground="#90A1B9" FontSize="12" Margin="6"/>
+                <TextBlock Text="{Binding MinProcessSize, StringFormat={}{0} MB}" Grid.Column="1" Foreground="#90A1B9" FontSize="12" Margin="6" HorizontalAlignment="Right"/>
+            </Grid>
+            <Slider Style="{StaticResource ModernSlider}" Margin="3 0 3 0" HorizontalAlignment="Stretch"
+                    Minimum="50" Maximum="1000" Height="35" IsSnapToTickEnabled="True" TickFrequency="10"
+                    Value="{Binding MinProcessSize}" />
+        </StackPanel>
+        
+        <!-- Max processes shown -->
+        <StackPanel Margin="6 0 6 0">
+            <Grid Height="30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Max processes shown" Grid.Column="0" Foreground="#90A1B9" FontSize="12" Margin="6"/>
+                <TextBlock Text="{Binding MaxProcessesShown}" Grid.Column="1" Foreground="#90A1B9" FontSize="12" Margin="6" HorizontalAlignment="Right"/>
+            </Grid>
+            <Slider Style="{StaticResource ModernSlider}" Margin="3 0 3 0" HorizontalAlignment="Stretch"
+                    Minimum="5" Maximum="50" Height="35" IsSnapToTickEnabled="True" TickFrequency="1"
+                    Value="{Binding MaxProcessesShown}" />
+        </StackPanel>
+
+        <!-- Refresh interval -->
+        <StackPanel Margin="6 0 6 0">
+            <Grid Height="30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Refresh interval" Grid.Column="0" Foreground="#90A1B9" FontSize="12" Margin="6"/>
+                <TextBlock Text="{Binding RefreshInterval, StringFormat={}{0} sec}" Grid.Column="1" Foreground="#90A1B9" FontSize="12" Margin="6" HorizontalAlignment="Right"/>
+            </Grid>
+            <Slider Style="{StaticResource ModernSlider}" Margin="3 0 3 0" HorizontalAlignment="Stretch"
+                    Minimum="1" Maximum="30" Height="35" IsSnapToTickEnabled="True" TickFrequency="1"
+                    Value="{Binding RefreshInterval}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

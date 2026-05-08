@@ -8,23 +8,15 @@
         xmlns:tb="clr-namespace:H.NotifyIcon;assembly=H.NotifyIcon.Wpf"
         xmlns:shell="clr-namespace:WinTrayMemory.Shell"
         mc:Ignorable="d"
-        Background="#20222790"
-        BorderBrush="White"
-        BorderThickness="0.6"
+        Background="#0F172B"
+        BorderBrush="#314158"
+        BorderThickness="1"
         WindowStyle="None"
         AllowsTransparency="True"
         ShowInTaskbar="False"
         Title="WinTrayMemory"
-        Height="210" Width="315"
-        MaxWidth="315" MaxHeight="210">
-
-    <Window.DataContext>
-        <shell:MainViewModel />
-    </Window.DataContext>
-    
-    <i:Interaction.Behaviors>
-        <blur:BlurBehavior/>
-    </i:Interaction.Behaviors>
+        Height="250" Width="385"
+        MaxWidth="385" MaxHeight="250">
 
     <Grid>
         <ContentControl x:Name="MainContent"
@@ -33,7 +25,7 @@
 
         <tb:TaskbarIcon x:Name="TrayIcon"
                         IconSource="/Resources/img/appIcon.ico"
-                        ToolTipText="Win Tray Memory"
+                        ToolTipText="{Binding TrayTooltip}"
                         TrayLeftMouseUp="TrayIcon_OnClick" />
     </Grid>
 </Window>

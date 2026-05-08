@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="WinTrayMemory.MainPage.Components.MemoryUsage.MemoryUsageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WinTrayMemory.MainPage.Components.MemoryUsage"
+	         xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+             
+             mc:Ignorable="d" 
+             BorderBrush="#314158"
+             BorderThickness="1"
+             d:DesignHeight="100" d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/WinTrayMemory;component/Resources/Styles/BaseStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Background="#0F172B" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="MEMORY USAGE" Foreground="White" Margin="5 3" FontWeight="Medium" FontSize="10" Grid.Column="0"/>
+            <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" Margin="0 2 5 0">
+                <svgc:SvgViewbox Source="/Resources/img/memory.svg" Height="12" Width="12"/>
+                <TextBlock Text="{Binding UsedMemory, StringFormat={}{0:F1} / }"
+                     Foreground="#90A1B9" FontSize="9" FontWeight="Bold" Margin="5 2 0 0"/>
+                <TextBlock Text="{Binding TotalMemory, StringFormat={}{0:F1} GB}"
+                     Foreground="#90A1B9" FontSize="9" FontWeight="Bold" Margin="0 2 0 0"/>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Orientation="Vertical" Background="#1D293D" Grid.Row="1">
+            <TextBlock Text="{Binding UsedPercentage, StringFormat={}{0:F0}%}"
+                 Foreground="#50A2FD" FontSize="24" FontWeight="Bold" Margin="10 2 0 7"/>
+
+            <Grid HorizontalAlignment="Stretch" Height="35">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="17"/>
+                </Grid.RowDefinitions>
+
+                <Slider Style="{StaticResource RamUsageSliderStyle}" 
+                         Value="{Binding UsedPercentage}" Minimum="0" Maximum="100" Margin="8 0 8 0"/>
+
+                <Grid Grid.Row="1" Margin="8 0 8 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="0" FontWeight="Medium" HorizontalAlignment="Left" Foreground="#45556C" FontSize="10" Margin="-4,0,0,0"/>
+                    <TextBlock Grid.Column="0" Text="25" FontWeight="Medium" HorizontalAlignment="Right" Foreground="#45556C" FontSize="10" Margin="0,0,-4,0"/>
+                    <TextBlock Grid.Column="1" Text="50" FontWeight="Medium" HorizontalAlignment="Right" Foreground="#45556C" FontSize="10" Margin="0,0,-4,0"/>
+                    <TextBlock Grid.Column="2" Text="75" FontWeight="Medium" HorizontalAlignment="Right" Foreground="#45556C" FontSize="10" Margin="0,0,-4,0"/>
+                    <TextBlock Grid.Column="3" Text="100" FontWeight="Medium" HorizontalAlignment="Right" Foreground="#45556C" FontSize="10" Margin="0,0,-5,0"/>
+                </Grid>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

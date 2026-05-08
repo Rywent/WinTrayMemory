@@ -1,0 +1,125 @@
+﻿<UserControl x:Class="WinTrayMemory.SettingsPage.Components.ProcessCategories.ProcessCategoriesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WinTrayMemory.SettingsPage.Components.ProcessCategories"
+             BorderBrush="#314158"
+             xmlns:userProcessLine="clr-namespace:WinTrayMemory.Resources.View.UserControls"
+             BorderThickness="1"
+             mc:Ignorable="d" 
+             d:DesignHeight="280" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/WinTrayMemory;component/Resources/Styles/BaseStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <StackPanel Background="#1D293D" Orientation="Vertical">
+
+        <Grid Background="#0F172B" Margin="7 5 7 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Height="40" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Style="{StaticResource PlaceholderTextBox}"
+         Tag="process name (without .exe)"
+         Text="{Binding EnteredProcessName}"
+         Height="30" Margin="5" Grid.Column="0"/>
+
+                <ComboBox Style="{StaticResource ModernComboBox}" Grid.Column="1" 
+                      SelectedIndex="0" Height="30" Margin="5" ItemsSource="{Binding Categories}"
+                      SelectedItem="{Binding SelectedCategory}">    
+                </ComboBox>
+            </Grid>
+
+            <Button Background="#155DFC" Height="25" Grid.Row="1" Margin="5,0,5,5"
+            Content="ADD RULE" FontSize="11" Foreground="White" FontWeight="Medium"
+            BorderBrush="#1447E6" BorderThickness="1" Style="{StaticResource ActionButtonStyle}"
+            Command="{Binding AddRuleCommand}"/>
+        </Grid>
+
+        <!-- processes list -->
+        <Grid Grid.Row="1" Margin="7 5 7 0">
+            <TextBlock Text="No custom rules added yet. Add your first rule above to categorize processes your way."
+               Foreground="#6B7A8F"
+               FontSize="11"
+               FontStyle="Italic"
+               TextAlignment="Center"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center"
+               Margin="10,0"
+               TextWrapping="Wrap">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Processes.Count}" Value="0">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
+            <ListBox Background="#06142A"
+             BorderThickness="0"
+             Height="95"
+             Padding="0"
+             HorizontalAlignment="Stretch"
+             VerticalContentAlignment="Stretch" 
+             ScrollViewer.VerticalScrollBarVisibility="Hidden"
+             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+             ItemsSource="{Binding Processes}">
+                <ListBox.Style>
+                    <Style TargetType="ListBox">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Processes.Count}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.Style>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <ContentPresenter/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <userProcessLine:UserProcessLine Margin="0 0 0 0" Height="30"
+                                                 TaskName="{Binding Name}"
+                                                 TaskClueMessage="{Binding ClueMessage}"
+                                                 TaskCategory="{Binding Category}"
+                                                 RemoveCommand="{Binding DataContext.RemoveProcessCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+        <TextBlock Text="Safe - Can be killed safely" Grid.Column="0" Foreground="#90A1B9" FontSize="12" Margin="6"/>
+        <TextBlock Text="Warning - Kill with caution" Grid.Column="0" Foreground="#90A1B9" FontSize="12" Margin="6"/>
+        <TextBlock Text="System - Critical, cannot kill" Grid.Column="0" Foreground="#90A1B9" FontSize="12" Margin="6"/>
+
+    </StackPanel>
+</UserControl>

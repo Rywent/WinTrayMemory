@@ -1,47 +1,104 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-
-using WinTrayMemory.Config;
-using WinTrayMemory.Settings;
-using WinTrayMemory.HeaviestProcesses;
+using CommunityToolkit.Mvvm.Messaging;
+using System.Windows;
+using WinTrayMemory.Data.Services.Interface;
+using WinTrayMemory.MainPage;
+using WinTrayMemory.MainPage.Components.Messages;
 using WinTrayMemory.Memory;
+using WinTrayMemory.Settings;
+using WinTrayMemory.SettingsPage;
+using WinTrayMemory.SettingsPage.Components.Messages;
 
 namespace WinTrayMemory.Shell;
 
-public sealed partial class MainViewModel : ObservableObject
+public sealed partial class MainViewModel : ObservableObject, IRecipient<OpenSettingsPageMessage>, IRecipient<OpenMonitoringPageMessage>
 {
-    [ObservableProperty]
-    private ObservableObject? _currentView;
 
-    public HeaviestProcessesViewModel HeaviestProcessesViewModel { get; }
-    public MemoryInfoViewModel MemoryInfoViewModel { get; }
-    public SettingsViewModel SettingsViewModel { get; }
+    private readonly MemoryInfoService _memoryInfoService;
+    private readonly System.Timers.Timer _trayTimer;
+    private readonly IAppSettingsService _settingsService;
 
-    private readonly AppSettings _settings;
+    [ObservableProperty] private Object? _currentView;
+
+    [ObservableProperty] private string _trayTooltip = "WinTrayMemory";
+    public MainPageViewModel MainPage { get; }
+    public SettingsPageViewModel SettingsPage { get; }
+
 
     /// <summary>
-    /// initializes the main view model and loads application settings.
+    /// initializes the main view model and loads application settings
     /// </summary>
-    public MainViewModel()
+    public MainViewModel(
+        MainPageViewModel mainPage,
+        SettingsPageViewModel settingsPage,
+        IAppSettingsService settingsService,
+        SettingsChangedEvent settingsChangedEvent)
     {
-        _settings = SettingsService.Load();
+        MainPage = mainPage;
+        SettingsPage = settingsPage;
+        _settingsService = settingsService;
 
-        MemoryInfoViewModel = new MemoryInfoViewModel();
-        HeaviestProcessesViewModel  = new HeaviestProcessesViewModel(_settings, MemoryInfoViewModel);
-        SettingsViewModel = new SettingsViewModel(_settings);
+        CurrentView = MainPage;
+        WeakReferenceMessenger.Default.RegisterAll(this);
 
-        CurrentView = HeaviestProcessesViewModel;
+        _memoryInfoService = new MemoryInfoService();
+
+        _trayTimer = new System.Timers.Timer();
+        _trayTimer.Elapsed += (_, _) => UpdateTrayTooltip();
+        _trayTimer.AutoReset = true;
+        _trayTimer.Start();
+
+        _ = InitializeTrayTimerAsync();
+
+        settingsChangedEvent.SettingsChanged += async () =>
+        {
+            await Application.Current.Dispatcher.InvokeAsync(async () =>
+            {
+                await RefreshTrayIntervalAsync();
+            });
+        };
+    }
+
+    private async Task InitializeTrayTimerAsync()
+    {
+        var settings = await _settingsService.GetSettingsAsync();
+        _trayTimer.Interval = TimeSpan.FromSeconds(settings.RefreshInterval).TotalMilliseconds;
+        _trayTimer.Start();
+        UpdateTrayTooltip();
+    }
+
+    private async Task RefreshTrayIntervalAsync()
+    {
+        var settings = await _settingsService.GetSettingsAsync();
+        _trayTimer.Interval = TimeSpan.FromSeconds(settings.RefreshInterval).TotalMilliseconds;
+    }
+
+    private void UpdateTrayTooltip()
+    {
+        var (totalGb, usedGb, usedPercent) = _memoryInfoService.GetMemoryInfo();
+
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            TrayTooltip = $"WinTrayMemory\n" +
+                          $"RAM: {usedGb:F1} / {totalGb:F1} GB ({usedPercent:F0}%)\n" +
+                          $"Click to open";
+        });
     }
 
     /// <summary>
     /// switches shell view to the heaviest processes view.
     /// </summary>
-    [RelayCommand]
-    private void ShowHeaviestProcesses() => CurrentView = HeaviestProcessesViewModel;
+    public void Receive(OpenSettingsPageMessage message)
+    {
+        CurrentView = SettingsPage;
+    }
 
     /// <summary>
-    /// switches shell view to the settings view.
+    /// Switches shell view to the monitoring page.
     /// </summary>
-    [RelayCommand]
-    private void ShowSettings() => CurrentView = SettingsViewModel;
+    public void Receive(OpenMonitoringPageMessage message)
+    {
+        CurrentView = MainPage;
+    }
 }
