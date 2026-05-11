@@ -33,7 +33,7 @@ Windows Tray Memory is a lightweight yet powerful heavy‑process monitor and RA
 | 🗄️ | SQLite + EF Core storage | Replaced JSON configs with a real database. Tables for settings and custom processes. Repositories & services for DB management. |
 | 📉 | MemoryUsage | Slider showing available / used memory in percentage. |
 | ⏱️ | MemoryTimeline | Line chart of memory usage changes over the last minute. |
-| 🥧 | MemoryDetail (Pie Chart) | Pie chart: Applications (Private) 🔴 — actual app memory / Resources (Shared) 🟢 — shared memory (DLLs) / System ⚪ — system memory & cache. |
+| 🥧 | MemoryDetail (Pie Chart) | Pie chart: Applications (Private) 🔴 - actual app memory / Resources (Shared) 🟢 - shared memory (DLLs) / System ⚪ - system memory & cache. |
 | 🎯 | MemoryPressure | Semi‑circular gauge: Commit Percent + Hard Faults (pg/s) + status text (Good / Warning / Critical). |
 | 🤖 | Auto‑cleanup | Automatic memory cleanup when the configured threshold (percentage) is reached. |
 | 🔄 | Update check | Checks if a new version is available. |
